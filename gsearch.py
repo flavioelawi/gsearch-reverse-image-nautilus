@@ -1,5 +1,5 @@
-from gi.repository import Nautilus, GObject
 import mimetypes,os,requests,urlparse,subprocess
+from gi.repository import Gio, GObject, Nautilus
 
 
 class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
@@ -22,7 +22,7 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
         response = session.post(self.GIMAGE_URL,files=multipart,allow_redirects=False)
         fetchUrl = response.headers['Location']
         subprocess.Popen(['notify-send','Upload Done ' + file.get_name()])
-        subprocess.Popen(['xdg-open',fetchUrl])
+        Gio.AppInfo.launch_default_for_uri(fetchUrl)
 
 
     def get_file_items(self, window, files):
@@ -31,9 +31,7 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
 
         file = files[0]
 
-        mimetypes.init()
-
-        if "image" in mimetypes.guess_type(file.get_name())[0]:
+        if "image/" in Gio.content_type_guess(file.get_name())[0]:
             item = Nautilus.MenuItem(
                 name="SimpleMenuExtension::Show_File_Name",
                 label="Search on Google Image",
