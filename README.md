@@ -12,3 +12,6 @@ sudo pip install requests
 or
 
 sudo apt-get install python-requests
+
+Known Issues:
+The requests are sync, so nautilus will lock until the image is uploaded (Big image files warning!!)
