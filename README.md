@@ -4,6 +4,8 @@ This plugin adds a Google image search menu entry in Gnome Nautilus.
 
 * Ubuntu 15.04 with Unity
 
+* Debian 8
+
 * Fedora 22
 
 **Requirements:**
