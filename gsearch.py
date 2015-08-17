@@ -1,5 +1,5 @@
-import mimetypes,os,requests,urlparse,subprocess
 from gi.repository import Gio, GObject, Nautilus
+import dbus, os, requests, urlparse
 
 
 class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
@@ -9,19 +9,28 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
         pass
 
     def _upload_to_browser(self,menu,file):
+        bus = dbus.SessionBus()
+        bus_obj = bus.get_object("org.freedesktop.Notifications",
+                                 "/org/freedesktop/Notifications")
+        interface = dbus.Interface(bus_obj, "org.freedesktop.Notifications")
 
-        subprocess.Popen(['notify-send','Uploading ' + file.get_name()])
-
-        p= urlparse.urlparse(file.get_uri())
+        interface.Notify("Nautilus", 0, "nautilus",
+                         "Uploading %s" % file.get_name(),
+                         "Your file is being uploaded",
+                         [], [], 0)
+        p = urlparse.urlparse(file.get_uri())
 
         path = os.path.abspath(os.path.join(p.netloc, p.path))
-        path=path.replace('%20',' ')
+        path = path.replace('%20',' ')
         multipart = {'encoded_image':(path, open(path,'rb')),'image_content': ''}
         session = requests.session()
         session.headers['User-Agent'] = "Nautilus Google Reverse Image search plugin v0.1"
         response = session.post(self.GIMAGE_URL,files=multipart,allow_redirects=False)
         fetchUrl = response.headers['Location']
-        subprocess.Popen(['notify-send','Upload Done ' + file.get_name()])
+        interface.Notify("Nautilus", 0, "nautilus",
+                         "Upload done",
+                         "Your file %s was uploaded" % file.get_name(),
+                         [], [], 0)
         Gio.AppInfo.launch_default_for_uri(fetchUrl)
 
 
