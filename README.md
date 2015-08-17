@@ -4,14 +4,15 @@ put the file gsearch.py in /usr/share/nautilus-python/extensions/
 
 Tested on Ubuntu 15.04 with Unity
 
-Requirements:
-requests
+**Requirements:**
+* requests
 
-sudo pip install requests
+> sudo pip install requests
 
 or
 
-sudo apt-get install python-requests
+> sudo apt-get install python-requests
 
-Known Issues:
+**Known Issues:**
+
 The requests are sync, so nautilus will lock until the image is uploaded (Big image files warning!!)
