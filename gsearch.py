@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-import mimetypes,os,requests,urlparse,subprocess
-from gi.repository import Gio, GObject, Nautilus
-=======
+
 from gi.repository import Gio, GObject, Nautilus
 import dbus, os, requests, urlparse
->>>>>>> ianbrunelli-master
+
 
 
 class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
@@ -22,7 +19,7 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
         interface.Notify("Nautilus", 0, "nautilus",
                          "Uploading %s" % file.get_name(),
                          "Your file is being uploaded",
-                         [], [], 0)
+                         [], [], 5000)
         p = urlparse.urlparse(file.get_uri())
 
         path = os.path.abspath(os.path.join(p.netloc, p.path))
@@ -32,14 +29,12 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
         session.headers['User-Agent'] = "Nautilus Google Reverse Image search plugin v0.1"
         response = session.post(self.GIMAGE_URL,files=multipart,allow_redirects=False)
         fetchUrl = response.headers['Location']
-<<<<<<< HEAD
-        subprocess.Popen(['notify-send','Upload Done ' + file.get_name()])
-=======
+
         interface.Notify("Nautilus", 0, "nautilus",
                          "Upload done",
                          "Your file %s was uploaded" % file.get_name(),
-                         [], [], 0)
->>>>>>> ianbrunelli-master
+                         [], [], 5000)
+
         Gio.AppInfo.launch_default_for_uri(fetchUrl)
 
 
