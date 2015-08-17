@@ -19,11 +19,11 @@ or
 
 > sudo apt-get install python-requests
 
-**nautilus-python**
+**python-nautilus**
 
-> sudo apt-get install nautilus-python
+> sudo apt-get install python-nautilus
 
-> sudo yum install nautilus-python
+> sudo yum install python-nautilus
 
 **Known Issues:**
 
