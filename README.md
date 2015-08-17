@@ -22,6 +22,7 @@ or
 **nautilus-python**
 
 > sudo apt-get install nautilus-python
+
 > sudo yum install nautilus-python
 
 **Known Issues:**
