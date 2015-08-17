@@ -11,8 +11,11 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
     def _upload_to_browser(self,menu,file):
 
         subprocess.Popen(['notify-send','Uploading ' + file.get_name()])
+
         p= urlparse.urlparse(file.get_uri())
+
         path = os.path.abspath(os.path.join(p.netloc, p.path))
+        path=path.replace('%20',' ')
         multipart = {'encoded_image':(path, open(path,'rb')),'image_content': ''}
         session = requests.session()
         session.headers['User-Agent'] = "Nautilus Google Reverse Image search plugin v0.1"
