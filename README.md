@@ -19,7 +19,13 @@ This plugin adds a Google image search menu entry in Gnome Nautilus.
 
 or
 
+Debian-based
+
 > sudo apt-get install python-requests
+
+RHEL-based
+
+> sudo yum install python-requests
 
 **python-nautilus**
 
@@ -39,6 +45,10 @@ The requests are sync, so nautilus will lock until the image is uploaded (Big im
 **Installation:**
 
 * put the file gsearch.py in /usr/share/nautilus-python/extensions/
+
+or install locally for the user
+
+* ~/.local/share/nautilus-python/extensions
 
 * restart gdm/lightdm
 
