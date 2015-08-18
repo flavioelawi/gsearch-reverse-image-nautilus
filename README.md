@@ -23,9 +23,13 @@ or
 
 **python-nautilus**
 
+Debian-based
+
 > sudo apt-get install python-nautilus
 
-> sudo yum install python-nautilus
+RHEL-based
+
+> sudo yum install nautilus-python
 
 **Known Issues:**
 
