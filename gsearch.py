@@ -1,8 +1,5 @@
-
 from gi.repository import Gio, GObject, Nautilus
 import dbus, os, requests, urlparse
-
-
 
 class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
     GIMAGE_URL='https://images.google.com/searchbyimage/upload'

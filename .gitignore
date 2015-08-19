@@ -1,2 +1,4 @@
 .idea
 *.pyc
+*.jpg
+test*.py
