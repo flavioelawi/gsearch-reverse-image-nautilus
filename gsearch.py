@@ -1,5 +1,6 @@
 from gi.repository import Gio, GObject, Nautilus
 import dbus, os, requests, urlparse
+from multiprocessing import Pool
 
 class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
     GIMAGE_URL='https://images.google.com/searchbyimage/upload'
@@ -7,7 +8,17 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
     def __init__(self):
         pass
 
-    def _upload_to_browser(self,menu,file):
+    def _upload_to_gsearch(self,file):
+        p = urlparse.urlparse(file.get_uri())
+        path = os.path.abspath(os.path.join(p.netloc, p.path))
+        path = path.replace('%20',' ')
+        multipart = {'encoded_image':(path, open(path,'rb')),'image_content': ''}
+        session = requests.session()
+        session.headers['User-Agent'] = "Nautilus Google Reverse Image search plugin v0.1"
+        response = session.post(self.GIMAGE_URL,files=multipart,allow_redirects=False)
+        fetchUrl = response.headers['Location']
+
+    def _execute_command(self,menu,file):
         bus = dbus.SessionBus()
         bus_obj = bus.get_object("org.freedesktop.Notifications",
                                  "/org/freedesktop/Notifications")
@@ -17,16 +28,11 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
                          "Uploading %s" % file.get_name(),
                          "Your file is being uploaded",
                          [], [], 5000)
-        p = urlparse.urlparse(file.get_uri())
 
-        path = os.path.abspath(os.path.join(p.netloc, p.path))
-        path = path.replace('%20',' ')
-        multipart = {'encoded_image':(path, open(path,'rb')),'image_content': ''}
-        session = requests.session()
-        session.headers['User-Agent'] = "Nautilus Google Reverse Image search plugin v0.1"
-        response = session.post(self.GIMAGE_URL,files=multipart,allow_redirects=False)
-        fetchUrl = response.headers['Location']
+        pool = Pool(processes=1)
+        fetchUrl = pool.apply_async(self._upload_to_gsearch,(file,))
 
+        pool.close()
         interface.Notify("Nautilus", 0, "nautilus",
                          "Upload done",
                          "Your file %s was uploaded" % file.get_name(),
@@ -47,6 +53,6 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
                 label="Search on Google Image",
                 tip="Search %s" % file.get_name()
             )
-            item.connect('activate', self._upload_to_browser, file)
+            item.connect('activate', self._execute_command, file)
 
             return [item]
