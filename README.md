@@ -10,7 +10,7 @@
 
 * Fedora 22
 
-###Requirements:
+### Requirements:
 
 * requests
 
@@ -18,7 +18,7 @@
 
 ### Install the requirements:
 
-#####Using the package manager provided by your distribution:
+##### Using the package manager provided by your distribution:
 
 **Debian-based**
 
