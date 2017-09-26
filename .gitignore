@@ -2,3 +2,5 @@
 *.pyc
 *.jpg
 test*.py
+*.egg-info
+.vscode
