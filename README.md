@@ -2,53 +2,36 @@
 
 ### Tested on:
 
-* Ubuntu from 14.04 to 17.10 (Gnome-shell - unity-shell)
-
-* Debian 8
-
-* Fedora 25 (gnome-shell tested)
-
-* Fedora 22
+* Arch
 
 ### Requirements:
 
 * requests
-
-* nautilus-python python-requests nautilus-python
+* python-nautilus
+* dbus-python
+* python-requests
 
 ### Install the requirements:
 
 ##### Using the package manager provided by your distribution:
 
-**Debian-based**
+**Arch**
 
-> sudo apt-get install python-requests python-nautilus
-
-**RHEL-based**
-
-> sudo yum install python-requests nautilus-python
-
-**Fedora 25**
-
-> sudo dnf install python-requests nautilus-python python3-dbus
+> sudo pacman -S  requests python-nautilus dbus-python python-requests
 
 ## Installation:
 
-#### Global
-
-> put the file gsearch.py in /usr/share/nautilus-python/extensions/
-
 #### User
+
 > python setup.py install
 
-* or
->  ~/.local/share/nautilus-python/extensions
-
-
 ## Load the plugin
+> Logoff/logon
+
+Or
 > restart gdm/lightdm
 
-or
+Or
 
 > nautilus -q
 
