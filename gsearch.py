@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
     def __init__(self):
+        GObject.GObject.__init__(self)
         logger.debug=("Initializing Image Search extention...")
         self.SERVICE_MAPPING = {
             "Google": {
