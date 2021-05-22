@@ -45,9 +45,9 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
         Gio.AppInfo.launch_default_for_uri(response_url)
 
     def get_file_items(self, window, files):
-        for _file in files: 
+        items = []
+        for _file in files:
             if "image/" in Gio.content_type_guess(_file.get_name())[0]:
-                items = []
                 for service in self.SERVICE_MAPPING:
                     item = Nautilus.MenuItem(
                         name="SimpleMenuExtension::Show_File_Name",
@@ -55,7 +55,7 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
                         tip="Search %s" % _file.get_name()
                     )
                     item.connect('activate', self._upload_to_browser, _file, service)
-                    items.append(item)
+                    items = [item]
         return items
 
     def _get_file_path(self, _file):
@@ -75,4 +75,3 @@ class GoogleImageSearchExtention(GObject.GObject , Nautilus.MenuProvider):
             allow_redirects=False
         )
         return response.headers['Location']
-
